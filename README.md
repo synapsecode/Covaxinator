@@ -10,4 +10,5 @@ This is a project by Team SynapseCode for the Oakridge Codefest 2021 Hackathon c
 - **(M)** Base Flask Scaffold has been Created using My Own Project Creation Tool (it is on my github itself)
 - **(M)** Added Flask Blueprint Folders
 - **(M)** Add Basic Routes
-- **(M)** (Pending) Implementing Basic DB Architecture
+- **(M)** Implemented Basic DB Architecture
+- **(M)** (Pending) Create Login, Register Infrastructure
