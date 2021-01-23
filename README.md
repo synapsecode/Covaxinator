@@ -1,1 +1,1 @@
-"# Covaxinator" 
+# Covaxinator 
