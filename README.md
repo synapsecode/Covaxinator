@@ -8,4 +8,5 @@ This is a project by Team SynapseCode for the Oakridge Codefest 2021 Hackathon c
 
 ## Progress
 - **(M)** Base Flask Scaffold has been Created using My Own Project Creation Tool (it is on my github itself)
-- **(M)** (Pending) Basic Rotues
+- **(M)** Added Flask Blueprint Folders
+- **(M)** (Pending) Add Basic Routes
