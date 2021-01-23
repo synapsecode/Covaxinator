@@ -12,4 +12,8 @@ This is a project by Team SynapseCode for the Oakridge Codefest 2021 Hackathon c
 - **(M)** Add Basic Routes
 - **(M)** Implemented Basic DB Architecture
 - **(M)** (Pending) Create Login, Register Infrastructure
-- **{J}** Made PPt
+- **(J)** Made Presentation for Covaxinator
+- **(J)** Made basic HTML5 Login&Register Page
+- **(M)** Codesprint1: Integrated Jinja2 Templates with Janvi's HTML Markup & Added Most of the Routes
+- **(M)** (Pending) Start Work on Homepage Route
+- **(J)** Added home Page for patient and doctor
