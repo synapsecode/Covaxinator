@@ -1,6 +1,13 @@
 from flask import render_template, request, Blueprint
+from Covaxinator.models import *
+from Covaxinator import db
+
 doctor = Blueprint('doctor', __name__)
 
-@doctor.route("/")
-def doctor_home():
-	return "This is the doctor module of Covaxinator"
+@doctor.route('/login', methods=['GET', 'POST'])
+def doctor_login():
+	return "LOGIN"
+
+@doctor.route('/register', methods=['GET', 'POST'])
+def doctor_register():
+	return "REGISTER"

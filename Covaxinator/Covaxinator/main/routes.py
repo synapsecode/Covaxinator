@@ -3,4 +3,4 @@ main = Blueprint('main', __name__)
 
 @main.route("/")
 def main_home():
-	return "This is the main module of Covaxinator"
+	return render_template('main.html', title='Covaxinator')
