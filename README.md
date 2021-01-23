@@ -21,4 +21,6 @@ This is a project by Team SynapseCode for the Oakridge Codefest 2021 Hackathon c
 - **(M)** ✔️ Integrated Janvi's Homepage HTML with Jinja2 For Flask
 - **(J)** ✔️ Janvi should create the rest of the Simple HTML Pages
 - **(M)** ✔️ Done Integration of Janvi's HTML Code into Jinja2 Templates for the remaining pages
-- **(M)** ⌛ (Pending): Integrate Basic SocketIO Functionality from Documentation
+- **(M)** ✔️ Integrated Basic SocketIO Functionality from Documentation
+- **(M)** ✔️ Completed FollowUp Chats between doctor and patient
+- **(M)** ⌛ (Pending): Add Remaining Parts to the Webapp
