@@ -7,5 +7,5 @@ This is a project by Team SynapseCode for the Oakridge Codefest 2021 Hackathon c
 2. HTML5, CSS3, JS + SocketIO
 
 ## Progress
-- Base Flask Scaffold has been Created using My Own Project Creation Tool (it is on my github itself)
-- (Pending) Basic Rotues
+- **(M)** Base Flask Scaffold has been Created using My Own Project Creation Tool (it is on my github itself)
+- **(M)** (Pending) Basic Rotues
