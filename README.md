@@ -19,5 +19,5 @@ This is a project by Team SynapseCode for the Oakridge Codefest 2021 Hackathon c
 - **(J)** Added home Page for patient and doctor
 - **(M)** Added Routes for Homepage
 - **(M)** Integrated Janvi's Homepage HTML with Jinja2 For Flask
-- **(M)** (Pending): Janvi should create the rest of the Simple HTML Pages
+- **(J)** Janvi should create the rest of the Simple HTML Pages
 
