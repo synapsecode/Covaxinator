@@ -1,0 +1,35 @@
+  
+{% extends 'layout.html' %}
+{% block content %}
+<div class="container p-4">
+<button class="btn btn-dark" onclick="window.history.back()"> Back </button>
+<h1 class="display-1">My Patients</h1>
+<br>
+<table class="table table-striped table-dark" id="tbl">
+		<thead>
+			<tr>
+			<th scope="col">SerialNo</th>
+			<th scope="col">Patient Name</th>
+			<th scope="col">Patient Phone</th>
+			<th scope="col">Patient Location</th>
+			<th scope="col">Vaccine Name</th>
+			<th scope="col">Vaccine Batch</th>
+			<th scope="col">Patient Aadhar</th>
+			</tr>
+		</thead>
+		<tbody id='tbl'>
+			{% for e in patients %}
+			<tr data-phone="{{e.name}}">
+			<td>{{loop.index}}</td>
+				<td>{{e.name}}</td>
+				<td>{{e.phone}}</td>
+				<td>{{e.location[0].name}}</td>
+				<td>{{e.vaccine_batch.vaccine_name}}</td>
+				<td>{{e.vaccine_batch.batch_id}}</td>
+				<td>{{e.aadhar}}</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+</div>
+{% endblock content %}
