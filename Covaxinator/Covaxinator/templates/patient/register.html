@@ -8,11 +8,11 @@
 	<input type="text" class=" mt-2 form-control bg-muted text-dark" placeholder="Phone Number" id="pnbox"><br>
 	<input type="text" class=" mt-2 form-control bg-muted text-dark" placeholder="Aadhar Number" id="aadbox"><br>
 	<input type="text" class=" mt-2 form-control bg-muted text-dark" placeholder="Location (Region)" id="locbox"><br>
-	<input type="textarea" rows="2" class=" mt-2 form-control bg-muted text-dark" placeholder="Clinic Address" id="addrbox"><br>
+	<input type="textarea" rows="2" class=" mt-2 form-control bg-muted text-dark" placeholder="Home Address" id="addrbox"><br>
 	<input type="text" class="form-control bg-muted text-dark" placeholder="Password" id="pwdbox"><br>
 	<button class="btn btn-dark btn-lg" onclick="register()">Register</button>
 	<br>
-	<a class="text-muted text-decoration-none d-block my-3" href="{{url_for('doctor.doctor_login')}}">Already have an account? Log in</a>
+	<a class="text-muted text-decoration-none d-block my-3" href="{{url_for('patient.patient_login')}}">Already have an account? Log in</a>
 </div>
 {% endblock content %}
 
@@ -35,7 +35,7 @@ const register = () => {
 	fetch(window.location.href, {
 		method: 'post',
 		body: fd
-	}).then(()=>window.location.href = '{{url_for("doctor.doctor_login")}}');
+	}).then(()=>window.location.href = '{{url_for("patient.patient_login")}}');
 }
 </script>
 {% endblock js %}
