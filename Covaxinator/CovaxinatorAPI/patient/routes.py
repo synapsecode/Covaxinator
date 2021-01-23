@@ -1,7 +1,7 @@
 from flask import render_template, request, Blueprint, flash, url_for, redirect, jsonify, flash, session
 import json
-from Covaxinator.models import *
-from Covaxinator import db
+from CovaxinatorAPI.models import *
+from CovaxinatorAPI import db
 
 patient = Blueprint('patient', __name__)
 
@@ -46,7 +46,6 @@ def patient_register():
 	
 	return render_template('patient/register.html', title='Patient Register')
 
-# ---------PATIENT HOME---------------
 @patient.route('/home')
 def patient_home():
 	pat_id = session.get('logged_in_patient')
@@ -116,6 +115,7 @@ def get_vaccination_certificate(phone):
 
 	return render_template('patient/certificate.html', title="Vaccination Certificate", patient=patient, vaccine_batch=vaccine_batch)
 
+
 @patient.route('/report_symptoms', methods=['POST'])
 def report_symptoms():
 	pat_id = session.get('logged_in_patient')
@@ -134,4 +134,68 @@ def report_symptoms():
 
 @patient.route('/follow_ups')
 def follow_ups():
-	return "FOLLLOW UPS"
+	pat_id = session.get('logged_in_patient')
+	if(not pat_id): return redirect(url_for('patient.patient_login'))
+	patient = Patient.query.filter_by(id=pat_id).first()
+	doctor = patient.doctor
+	return render_template('patient/follow_ups.html', title="Follow Ups", doctor=doctor, patient=patient)
+
+
+@patient.route('/getchats/<doctorphone>')
+def getchats(doctorphone):
+	pat_id = session.get('logged_in_patient')
+	patient = Patient.query.filter_by(id=pat_id).first()
+
+	doctor = Doctor.query.filter_by(phone=doctorphone).first()
+	if(not doctor): return "NO DOCTOR"
+	
+	chats = FollowUpChatData.query.filter(
+		FollowUpChatData.doctor == doctor and FollowUpChatData.patient[0] == patient
+	).first()
+	
+	# print("CH: ", chats.chats)
+	if(not chats):
+		chats = FollowUpChatData(patient=patient, doctor=doctor)
+		db.session.add(chats)
+		db.session.commit()
+	
+	return jsonify({'chats': chats.chats})
+
+@patient.route('/updatechat/<doctorphone>', methods=['POST'])
+def updatechat(doctorphone):
+	pat_id = session.get('logged_in_patient')
+
+	print("------PATIENT ROUTE-----------")
+	print('~~~ Recieved DoctorPhone:', doctorphone)
+	
+
+	patient = Patient.query.filter_by(id=pat_id).first()
+	print("~~~ PATIENT FROM LOGIN:", patient)
+
+	doctor = Doctor.query.filter_by(phone=doctorphone).first()
+	print("~~~ DOCTOR OBJECT:", doctor)
+	if(not doctor):
+		print("No Doctor")
+		return jsonify({'status': 0})
+
+	data = request.form
+	#Sender [doctor|patient], Message[Any]
+	payload = {
+		'sender': data['sender'],
+		'message': data['message']
+	}
+
+	chats = FollowUpChatData.query.filter(
+		FollowUpChatData.doctor == doctor and FollowUpChatData.patient[0] == patient
+	).first()
+
+	print('CHATS:', len(chats.chats))
+	if(not chats): 
+		print("No Chat")
+		return jsonify({'status': 0})
+
+	chats.add_chat(payload)
+	db.session.commit()
+	return jsonify({'status': 200})
+
+

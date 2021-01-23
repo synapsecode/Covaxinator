@@ -1,6 +1,6 @@
-from flask import render_template, request, Blueprint, flash, jsonify, url_for, session, redirect
-from Covaxinator.models import *
-from Covaxinator import db
+from flask import render_template, request, Blueprint, flash, url_for, redirect, jsonify, session
+from CovaxinatorAPI.models import *
+from CovaxinatorAPI import db
 import json
 
 doctor = Blueprint('doctor', __name__)
@@ -47,7 +47,6 @@ def doctor_register():
 	
 	return render_template('doctor/register.html', title='Doctor Register')
 
-# ----SPACE FOR HOME----
 @doctor.route('/home',methods=['GET', 'POST'])
 def doctor_home():
 	doc_id = session.get('logged_in_doctor')
@@ -70,6 +69,8 @@ def doctor_home():
 		else:
 			print("Invalid Request")
 
+
+
 	inventory = VaccineBatch.query.all()
 	vaccine_names = set([v.vaccine_name for v in inventory])	
 	batch_numbers = {}
@@ -77,6 +78,7 @@ def doctor_home():
 		VB = VaccineBatch.query.filter_by(vaccine_name=vn).all()
 		batch_numbers[vn] = [vx.batch_id for vx in VB]
 	batch_numbers = json.dumps(batch_numbers)
+
 	
 
 	#Total Vaccinations in the Country
@@ -84,8 +86,22 @@ def doctor_home():
 	#All Vaccinated by Doctor
 	doctor_vaccinated_patients = [P for P in all_vaccinated_patients if P.doctor == doctor]
 	fatalities = [P for P in doctor_vaccinated_patients if P.is_alive == '0']
+	side_affected_patients = [S.patient for S in SideEffects.query.all() if S.doctor == doctor]
+	
 
-	return render_template('doctor/home.html', title="Doctor Home", vaccine_names=vaccine_names, batch_numbers=batch_numbers, inventory=inventory)
+	stats = {
+		'allvac':len(all_vaccinated_patients),
+		'docvac': len(doctor_vaccinated_patients),
+		'fatalities': len(fatalities),
+		'sideaffected': len(side_affected_patients)
+	}
+
+	print("All Vac:", all_vaccinated_patients)
+	print("Doc vac:", doctor_vaccinated_patients)
+	print("SideAffected Patients:", side_affected_patients)
+
+
+	return render_template('doctor/home.html', title="Doctor Home", vaccine_names=vaccine_names, batch_numbers=batch_numbers, inventory=inventory, stats=stats)
 
 @doctor.route('/logout')
 def doctor_logout():
@@ -100,6 +116,7 @@ def delete_vaccine_batch(id):
 	db.session.delete(vb)
 	db.session.commit()
 	return ""
+
 
 @doctor.route('/side_effects')
 def get_patient_side_effects():
@@ -136,4 +153,78 @@ def get_my_patients():
 
 @doctor.route('/follow_ups')
 def follow_ups():
-	return "FOLLLOW UPS"
+	doc_id = session.get('logged_in_doctor')
+	if(not doc_id): return redirect(url_for('doctor.doctor_login'))
+	doctor = Doctor.query.filter_by(id=doc_id).first()
+	patients = doctor.patients
+	pat = {}
+	for p in patients:
+		pat[p.phone] = p.name
+	pat = json.dumps(pat)
+	return render_template('doctor/follow_ups.html', title="Follow Ups", patients=patients, doctor=doctor, json=json, pat=pat)
+
+@doctor.route('/getchats/<patientphone>')
+def getchats(patientphone):
+	doc_id = session.get('logged_in_doctor')
+	if(not doc_id): return redirect(url_for('doctor.doctor_login'))
+	doctor = Doctor.query.filter_by(id=doc_id).first()
+
+	patient = Patient.query.filter_by(phone=patientphone).first()
+	if(not patient): return "NO PATIENT"
+	
+	chats = FollowUpChatData.query.filter(
+		FollowUpChatData.doctor == doctor and FollowUpChatData.patient[0] == patient
+	).first()
+	
+	if(not chats):
+		chats = FollowUpChatData(patient=patient, doctor=doctor)
+		db.session.add(chats)
+		db.session.commit()
+	
+	return jsonify({'chats': chats.chats})
+
+@doctor.route('/updatechat/<patientphone>', methods=['POST'])
+def updatechat(patientphone):
+	doc_id = session.get('logged_in_doctor')
+	if(not doc_id):
+		print("No DOC")
+		return 0
+	doctor = Doctor.query.filter_by(id=doc_id).first()
+
+	print("------DOCTOR ROUTE-----------")
+	print('~~~ Recieved PatientPhone:', patientphone)
+	print("~~~ DOCTOR FROM LOGIN:", doctor)
+
+
+	patient = Patient.query.filter_by(phone=patientphone).first()
+
+	print('~~~ Patient Object:', patient)
+
+
+	if(not patient):
+		print("No Patient")
+		return jsonify({'status': 0})
+
+	data = request.form
+	#Sender [doctor|patient], Message[Any]
+	payload = {
+		'sender': data['sender'],
+		'message': data['message']
+	}
+
+	chats = FollowUpChatData.query.filter(
+		FollowUpChatData.doctor == doctor and FollowUpChatData.patient[0] == patient
+	).first()
+
+	print("Chats:", len(chats.chats))
+
+	if(not chats): 
+		print("No Chat")
+		return jsonify({'status': 0})
+
+	chats.add_chat(payload)
+	db.session.commit()
+	return jsonify({'status': 200})
+
+
+

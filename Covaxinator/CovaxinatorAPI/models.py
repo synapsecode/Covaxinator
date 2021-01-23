@@ -1,8 +1,7 @@
-
 #Database Layer
 from datetime import datetime
 from flask import current_app
-from Covaxinator import db
+from CovaxinatorAPI import db
 
 #Association Tables
 doctor_location_association = db.Table(
@@ -70,6 +69,7 @@ class Doctor(db.Model):
 	patients = db.relationship('Patient', backref='doctor')
 	vaccine_batches = db.relationship('VaccineBatch', backref='doctor')
 
+	follow_ups = db.relationship('FollowUpChatData', backref='doctor')
 
 	#vaccine_batches -> one-many (one doctor can have many batches but one batch has only one doctor)
 
@@ -131,6 +131,7 @@ class Patient(db.Model):
 	vaccine_batch_id = db.Column(db.Integer, db.ForeignKey('vaccine_batch.id'))
 	
 	side_effects = db.relationship('SideEffects', backref='patient')
+	followup_chat_id = db.Column(db.Integer, db.ForeignKey('follow_up_chat_data.id'))
 
 	def __init__(self,name, phone,password, aadhar, address, location):
 		self.name = name
@@ -177,3 +178,42 @@ class SideEffects(db.Model):
 	def __init__(self, symptoms, description):
 		self.symptoms = symptoms
 		self.description = description
+
+
+class FollowUpChatData(db.Model):
+	id = db.Column(db.Integer, primary_key=True)
+	patient = db.relationship('Patient', backref='followup_chat')
+	doctor_id = db.Column(db.Integer, db.ForeignKey('doctor.id'))
+	#{'timestamp', 'message', 'sender'}
+	data = db.Column(db.PickleType)
+
+	def __init__(self, patient, doctor):
+		self.patient.append(patient)
+		doctor.follow_ups.append(self)
+		self.data = []
+
+	def add_chat(self, payload):
+		"""
+		message payload consists of:
+			Sender [doctor|patient], Message[Any]
+		"""
+		new_data = [
+			{
+				'sender': payload['sender'],
+				'timestamp': datetime.utcnow().strftime("%m/%d/%Y, %H:%M:%S"),
+				'message':payload['message'],
+			},
+			*self.data,
+		]
+
+		self.data = new_data
+		db.session.commit()
+
+	@property
+	def chats(self):
+		chats = [*self.data]
+		chats.sort(key=lambda x: x['timestamp'])
+		return chats
+
+	
+
