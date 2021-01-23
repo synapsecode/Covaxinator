@@ -20,4 +20,4 @@ This is a project by Team SynapseCode for the Oakridge Codefest 2021 Hackathon c
 - **(M)** Added Routes for Homepage
 - **(M)** Integrated Janvi's Homepage HTML with Jinja2 For Flask
 - **(J)** Janvi should create the rest of the Simple HTML Pages
-
+- **(M)** (PENDING): Integration of Janvi's HTML Code into Jinja2 Templates for the remaining pages
