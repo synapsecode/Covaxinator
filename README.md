@@ -17,3 +17,4 @@ This is a project by Team SynapseCode for the Oakridge Codefest 2021 Hackathon c
 - **(M)** Codesprint1: Integrated Jinja2 Templates with Janvi's HTML Markup & Added Most of the Routes
 - **(M)** (Pending) Start Work on Homepage Route
 - **(J)** Added home Page for patient and doctor
+- **(M)** Added Routes: (Pending) -> Integrate Janvi's Homepage HTML with Jinja2 For Flask 
