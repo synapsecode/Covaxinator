@@ -1,0 +1,125 @@
+{% extends 'layout.html' %}
+{% block content %}
+<div class="container">
+<br>
+	<center class="p-2">
+		<h1 class="display-1">⚕️Home</h1>
+		<a class="btn btn-danger" onclick="">Logout</a>
+	<center><br>
+	<div class="panel p-5">
+		<button class="btn btn-lg btn-dark op" data-toggle="modal" data-target="#NewVaccineModal"> New Vaccine Batch </button>
+		<button class="btn btn-lg btn-dark op" data-toggle="modal" data-target="#VaccinateModal"> Vaccinate </button>
+		<a class="btn btn-lg btn-dark op" data-toggle="modal" data-target="#InventoryModal"> Inventory </a>
+		<a class="btn btn-lg btn-dark op" data-toggle="modal" data-target="#StatisticsModal"> Statistics </a>
+		<a class="btn btn-lg btn-dark op" href="">Follow Ups</a>
+	</center>
+	
+	</div>
+</div>
+
+
+<!-- Add Vaccine Modal -->
+<div class="modal fade" id="NewVaccineModal" tabindex="-1" role="dialog" aria-labelledby="NewVaccineModalTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="NewVaccineModalLongTitle">Add Vaccine Batch</h5>
+        <button type="button" class="btn btn-muted" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <input type="text" class="form-control bg-dark text-light mb-1" placeholder="Vaccine Name" id="vxName">
+		<input type="text" class="form-control bg-dark text-light mb-1" placeholder="Batch Number" id="batNumber">
+		<input type="text" class="form-control bg-dark text-light mb-1" placeholder="Vaccine Count" id="vxCount">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" onclick="">Add Batch</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Vaccinate Modal -->
+<div class="modal fade" id="VaccinateModal" tabindex="-1" role="dialog" aria-labelledby="VaccinateModalTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="VaccinateModalLongTitle">Vaccinate Patient</h5>
+        <button type="button" class="btn btn-muted" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+	  	
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" onclick="vaccinate()">Vaccinate</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Inventory Modal -->
+<div class="modal fade" id="InventoryModal" tabindex="-1" role="dialog" aria-labelledby="InventoryModalTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="InventoryModalLongTitle">Vaccine Batch Inventory</h5>
+        <button type="button" class="btn btn-muted" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+	  	<input type="text" class="form-control bg-dark text-light mb-2" placeholder="Search Batch Number" id="searchbar">
+		  <div class="tableholder">
+				<table class="table table-striped table-dark" id="tbl">
+				<thead>
+					<tr>
+					<th scope="col">SerialNo</th>
+					<th scope="col">Vaccine Name</th>
+					<th scope="col">Batch Number</th>
+					<th scope="col">Vaccine Count</th>
+					<th scope="col">Delete Batch</th>
+					</tr>
+				</thead>
+				<tbody id='tbl'>
+					
+				</tbody>
+			</table>
+		  </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-dark" data-dismiss="modal" aria-label="Close">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Statistics Modal -->
+<div class="modal fade" id="StatisticsModal" tabindex="-1" role="dialog" aria-labelledby="StatisticsModalTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="StatisticsModalLongTitle">Statistics</h5>
+        <button type="button" class="btn btn-muted" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+	  	<center>
+		  
+		</center>
+	  	
+      </div>
+      <div class="modal-footer">
+	
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+	
+</script>
