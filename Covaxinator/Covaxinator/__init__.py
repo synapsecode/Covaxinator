@@ -13,9 +13,13 @@ def create_app(config_class=Config):
 
 	#Import all your blueprints
 	from Covaxinator.main.routes import main
+	from Covaxinator.patient.routes import patient
+	from Covaxinator.doctor.routes import doctor
 	
 	#use the url_prefix arguement if you need prefixes for the routes in the blueprint
 	app.register_blueprint(main)
+	app.register_blueprint(patient, url_prefix='/patient')
+	app.register_blueprint(doctor, url_prefix='/doctor')
 
 	return app
 
