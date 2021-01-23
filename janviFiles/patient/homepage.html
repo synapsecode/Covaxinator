@@ -1,0 +1,85 @@
+{% extends 'layout.html' %}
+{% block content %}
+<div class="container">
+<br>
+	<center class="p-2">
+		<h1 class="display-1">🌱 Home</h1>
+		<a class="btn btn-danger" onclick="">Logout</a>
+	<center><br>
+	<div class="panel p-5">
+		<button class="btn btn-lg btn-dark op" data-toggle="modal" data-target="#FindVacCenterModal"> Find Vaccination Centers</button>
+		<a class="btn btn-lg btn-dark op"> Get News </a>
+		<button class="btn btn-lg btn-dark op" onclick="">Get Vaccination Certificate</button>
+		<button class="btn btn-lg btn-dark op" data-toggle="modal" data-target="#CovaxiShieldModal">CovaxiShield</button>
+		<a class="btn btn-lg btn-dark op" href=""> Report Fatality </a>
+		<a class="btn btn-lg btn-dark op" data-toggle="modal" data-target="#ReportSideEffectsModal"> Report Side Effects </a>
+		<a class="btn btn-lg btn-dark op" href="">Follow Ups</a>
+	</center>
+	
+	</div>
+</div>
+
+
+<!-- FindVacCenters Modal -->
+<div class="modal fade" id="FindVacCenterModal" tabindex="-1" role="dialog" aria-labelledby="FindVacCenterModalTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="FindVacCenterModalLongTitle">Find Vaccination Centers</h5>
+        <button type="button" class="btn btn-muted" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+	  	
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-dark" data-dismiss="modal" aria-label="Close">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CovaxiShield Modal -->
+<div class="modal fade" id="CovaxiShieldModal" tabindex="-1" role="dialog" aria-labelledby="CovaxiShieldModalTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="CovaxiShieldModalLongTitle">CovaxiShield</h5>
+        <button type="button" class="btn btn-muted" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+	  	
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-dark" data-dismiss="modal" aria-label="Close">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ReportSideEffects Modal -->
+<div class="modal fade" id="ReportSideEffectsModal" tabindex="-1" role="dialog" aria-labelledby="ReportSideEffectsModalTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="ReportSideEffectsModalLongTitle">Report Side Effects</h5>
+        <button type="button" class="btn btn-muted" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+	  	
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" onclick="">Report</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+</script>
