@@ -1,3 +1,4 @@
+
 #Database Layer
 from datetime import datetime
 from flask import current_app
@@ -27,6 +28,7 @@ class Location(db.Model):
 	def __repr__(self):
 		return f"Location({self.name})"
 
+
 class VaccineBatch(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	
@@ -36,6 +38,8 @@ class VaccineBatch(db.Model):
 	doctor_id = db.Column(db.Integer, db.ForeignKey('doctor.id'))
 	patients = db.relationship('Patient', backref='vaccine_batch')
 
+	#doctor (one-may) -> Doctor who registered batch
+	#patients (many-one) -> Patients can be tracked back to this batch in inventory
 	vaccine_count = db.Column(db.Integer)
 
 	def __init__(self, vName, batchID, vaccineCount):
@@ -50,6 +54,8 @@ class VaccineBatch(db.Model):
 	def vaccinated_patients(self):
 		patients = self.doctor.patients
 		return [P for P in patients if P.is_vaccinated]
+
+
 
 class Doctor(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
@@ -124,6 +130,8 @@ class Patient(db.Model):
 	doctor_id = db.Column(db.Integer, db.ForeignKey('doctor.id'))
 	vaccine_batch_id = db.Column(db.Integer, db.ForeignKey('vaccine_batch.id'))
 	
+	side_effects = db.relationship('SideEffects', backref='patient')
+
 	def __init__(self,name, phone,password, aadhar, address, location):
 		self.name = name
 		self.phone = phone
@@ -133,6 +141,12 @@ class Patient(db.Model):
 		self.is_alive = True
 		location.patients.append(self)
 
+	def report_side_effects(self, symptoms, description):
+		se = SideEffects(symptoms=symptoms, description=description)
+		db.session.add(se)
+		self.side_effects.append(se)
+		db.session.commit()
+
 	def report_fatality(self):
 		self.is_alive = False
 		db.session.commit()
@@ -141,3 +155,25 @@ class Patient(db.Model):
 		return f"Patient({self.name}, {self.phone})"
 
 
+
+class SideEffects(db.Model):
+	id = db.Column(db.Integer, primary_key=True)
+	#patient -> mono
+	#doctor -> patient's docto
+	
+	
+	patient_id = db.Column(db.Integer, db.ForeignKey('patient.id'))
+	symptoms = db.Column(db.PickleType) #[List of Symptoms]
+	description = db.Column(db.String)
+
+	@property
+	def doctor(self):
+		return self.patient.doctor
+
+	@property
+	def vaccine_batch(self):
+		return self.patient.vaccine_batch
+
+	def __init__(self, symptoms, description):
+		self.symptoms = symptoms
+		self.description = description

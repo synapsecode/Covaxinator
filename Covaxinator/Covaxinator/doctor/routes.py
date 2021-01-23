@@ -133,3 +133,7 @@ def get_my_patients():
 	doctor = Doctor.query.filter_by(id=doc_id).first()
 	patients = doctor.patients
 	return render_template('doctor/mypatients.html', title="Fatalities", patients=patients)
+
+@doctor.route('/follow_ups')
+def follow_ups():
+	return "FOLLLOW UPS"

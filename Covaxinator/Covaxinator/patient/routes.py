@@ -131,3 +131,7 @@ def report_symptoms():
 		return jsonify({'redirect': url_for('patient.patient_home')})
 	patient.report_side_effects(symptoms, description)
 	return jsonify({'redirect': url_for('patient.patient_home')})
+
+@patient.route('/follow_ups')
+def follow_ups():
+	return "FOLLLOW UPS"
