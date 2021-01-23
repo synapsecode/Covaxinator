@@ -12,3 +12,4 @@ This is a project by Team SynapseCode for the Oakridge Codefest 2021 Hackathon c
 - **(M)** Add Basic Routes
 - **(M)** Implemented Basic DB Architecture
 - **(M)** (Pending) Create Login, Register Infrastructure
+- **{J}** Made PPt
