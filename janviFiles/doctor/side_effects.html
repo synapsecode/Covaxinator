@@ -1,0 +1,55 @@
+<div class="container p-4">
+	<button class="btn btn-dark" onclick="window.history.back()"> Back </button>
+	<h1 class="display-1">My Patients' Side Effects</h1>
+	<br>
+	<table class="table table-striped table-dark" id="tbl">
+		<thead>
+			<tr>
+			<th scope="col">SerialNo</th>
+			<th scope="col">Patient Name</th>
+			<th scope="col">Patient Phone</th>
+			<th scope="col">Vaccine Name</th>
+			<th scope="col">Vaccine Batch</th>
+			<th scope="col">Number of Side Effects</th>
+			<th scope="col">View Side Effects</th>
+			</tr>
+		</thead>
+		<tbody id='tbl'>
+			
+		</tbody>
+	</table>
+</div>
+
+
+<!-- SideEffect Modal -->
+<div class="modal fade" id="SideEffectModal" tabindex="-1" role="dialog" aria-labelledby="SideEffectModalTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="SideEffectModalLongTitle">Side Effects</h5>
+        <button type="button" class="btn btn-muted" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+	  	<div class="tablecontainer">
+			<table class="table table-striped table-dark" id="tblx">
+				<thead>
+					<tr>
+					<th scope="col">SerialNo</th>
+					<th scope="col">Symptoms</th>
+					<th scope="col">Description</th>
+					</tr>
+				</thead>
+				<tbody id="sefx">
+				
+				</tbody>
+			</table>
+		  </div>
+      </div>
+      <div class="modal-footer">
+	
+      </div>
+    </div>
+  </div>
+</div>
