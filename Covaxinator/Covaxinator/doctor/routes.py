@@ -1,6 +1,7 @@
 from flask import render_template, request, Blueprint, flash, jsonify, url_for, session, redirect
 from Covaxinator.models import *
 from Covaxinator import db
+import json
 
 doctor = Blueprint('doctor', __name__)
 
@@ -49,7 +50,42 @@ def doctor_register():
 # ----SPACE FOR HOME----
 @doctor.route('/home',methods=['GET', 'POST'])
 def doctor_home():
-	return "HOMEPAGE"
+	doc_id = session.get('logged_in_doctor')
+	if(not doc_id): return redirect(url_for('doctor.doctor_login'))
+	doctor = Doctor.query.filter_by(id=doc_id).first()
+
+	if(request.method == 'POST'):
+		data = request.form
+		req_type = data['rx_type']
+		if(req_type == 'ADD_VACCINE_BATCH'):
+			print("Adding New Vaccine Batch")
+			doctor.register_vaccine(data['vaccine_name'], data['batch_number'], data['vaccine_count'])
+			flash('New Vaccine Batch Registered Successfully', 'success')
+		elif(req_type == 'VACCINATE'):
+			print("Vaccinating")
+			patient = Patient.query.filter_by(phone=data['phone_number']).first()
+			if(not patient): return jsonify({})
+			doctor.vaccinate(data['batch_number'], patient)
+			flash('Vaccination Complete', 'success')
+		else:
+			print("Invalid Request")
+
+	inventory = VaccineBatch.query.all()
+	vaccine_names = set([v.vaccine_name for v in inventory])	
+	batch_numbers = {}
+	for vn in vaccine_names:
+		VB = VaccineBatch.query.filter_by(vaccine_name=vn).all()
+		batch_numbers[vn] = [vx.batch_id for vx in VB]
+	batch_numbers = json.dumps(batch_numbers)
+	
+
+	#Total Vaccinations in the Country
+	all_vaccinated_patients = [P for P in Patient.query.all() if P.is_vaccinated]
+	#All Vaccinated by Doctor
+	doctor_vaccinated_patients = [P for P in all_vaccinated_patients if P.doctor == doctor]
+	fatalities = [P for P in doctor_vaccinated_patients if P.is_alive == '0']
+
+	return render_template('doctor/home.html', title="Doctor Home", vaccine_names=vaccine_names, batch_numbers=batch_numbers, inventory=inventory)
 
 @doctor.route('/logout')
 def doctor_logout():

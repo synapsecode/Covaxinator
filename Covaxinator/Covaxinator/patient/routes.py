@@ -47,9 +47,43 @@ def patient_register():
 	return render_template('patient/register.html', title='Patient Register')
 
 # ---------PATIENT HOME---------------
-@patient.route('/home',methods=['GET', 'POST'])
+@patient.route('/home')
 def patient_home():
-	return "HOMEPAGE"
+	pat_id = session.get('logged_in_patient')
+	if(not pat_id): return redirect(url_for('patient.patient_login'))
+	patient = Patient.query.filter_by(id=pat_id).first()
+
+	shield_data = {}
+	for L in Location.query.all():
+		vac = len([P for P in L.patients.all() if P.is_vaccinated])
+		unvac = len([P for P in L.patients.all() if not P.is_vaccinated])
+		total = vac+unvac if vac+unvac > 0 else 1
+		print([P for P in L.patients])
+		shield_data[L.name] = {
+			'vaccinated': vac,
+			'notvaccinated':unvac,
+			'shieldpoint': round((vac/total)*100,3),
+		}
+	shield_data = json.dumps(shield_data)
+
+	vac_centers = {}
+	for L in Location.query.all():
+		vac_centers[L.name] = [
+			{
+				'name': D.name,
+				'address': D.address,
+				'phone': D.phone,
+			} for D in L.doctors
+		]
+	vac_centers = json.dumps(vac_centers)
+	return render_template('patient/home.html',
+		title="patient Home", 
+		phone=patient.phone, 
+		shield_data=shield_data, 
+		vac_centers=vac_centers, 
+		json=json,
+		patient=patient
+	)
 
 @patient.route('/logout')
 def patient_logout():
