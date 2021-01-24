@@ -52,6 +52,5 @@ def facescan():
 def getcertificate(patientphone):
 	patientphone = patientphone.replace('%2B','+')
 	print(patientphone)
-	
-	shield_data = json.dumps(shield_data)
+
 	return jsonify({"redirect": url_for('patient.get_vaccination_certificate', phone=patientphone)})
