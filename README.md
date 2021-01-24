@@ -25,4 +25,4 @@ This is a project by Team SynapseCode for the Oakridge Codefest 2021 Hackathon c
 - **(M)** ✔️ Completed FollowUp Chats between doctor and patient
 - **(M)** ✔️ Added Remaining & Extra Pages
 - **(M)** ✔️ Full Scale Static Test
-- **(M)** (Pending): Other Stuff
+- **(M)** ✔️ Final Checks
