@@ -23,4 +23,5 @@ This is a project by Team SynapseCode for the Oakridge Codefest 2021 Hackathon c
 - **(M)** ✔️ Done Integration of Janvi's HTML Code into Jinja2 Templates for the remaining pages
 - **(M)** ✔️ Integrated Basic SocketIO Functionality from Documentation
 - **(M)** ✔️ Completed FollowUp Chats between doctor and patient
-- **(M)** ⌛ (Pending): Add Remaining Parts to the Webapp
+- **(M)** ✔️ Added Remaining & Extra Pages
+- **(M)** ⌛ (Pending): Full Scale Static Test
