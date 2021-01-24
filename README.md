@@ -24,4 +24,5 @@ This is a project by Team SynapseCode for the Oakridge Codefest 2021 Hackathon c
 - **(M)** ✔️ Integrated Basic SocketIO Functionality from Documentation
 - **(M)** ✔️ Completed FollowUp Chats between doctor and patient
 - **(M)** ✔️ Added Remaining & Extra Pages
-- **(M)** ⌛ (Pending): Full Scale Static Test
+- **(M)** ✔️ Full Scale Static Test
+- **(M)** (Pending): Other Stuff
