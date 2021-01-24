@@ -163,6 +163,7 @@ def follow_ups():
 	pat = json.dumps(pat)
 	return render_template('doctor/follow_ups.html', title="Follow Ups", patients=patients, doctor=doctor, json=json, pat=pat)
 
+
 @doctor.route('/getchats/<patientphone>')
 def getchats(patientphone):
 	doc_id = session.get('logged_in_doctor')
@@ -171,12 +172,16 @@ def getchats(patientphone):
 
 	patient = Patient.query.filter_by(phone=patientphone).first()
 	if(not patient): return "NO PATIENT"
+
+	print("====GETCHATS : DOCTOR ====")
+	print(f"Patient {patientphone} -> {patient}")
+
+	chats = doctor.get_chats(patient)
 	
-	chats = FollowUpChatData.query.filter(
-		FollowUpChatData.doctor == doctor and FollowUpChatData.patient[0] == patient
-	).first()
-	
+	print("Chat Object", chats)
+
 	if(not chats):
+		print("Did not Find Chat History")
 		chats = FollowUpChatData(patient=patient, doctor=doctor)
 		db.session.add(chats)
 		db.session.commit()
@@ -191,7 +196,7 @@ def updatechat(patientphone):
 		return 0
 	doctor = Doctor.query.filter_by(id=doc_id).first()
 
-	print("------DOCTOR ROUTE-----------")
+	print("------DOCTOR : UPDATE CHAT-----------")
 	print('~~~ Recieved PatientPhone:', patientphone)
 	print("~~~ DOCTOR FROM LOGIN:", doctor)
 
@@ -212,9 +217,7 @@ def updatechat(patientphone):
 		'message': data['message']
 	}
 
-	chats = FollowUpChatData.query.filter(
-		FollowUpChatData.doctor == doctor and FollowUpChatData.patient[0] == patient
-	).first()
+	chats = doctor.get_chats(patient)
 
 	print("Chats:", len(chats.chats))
 

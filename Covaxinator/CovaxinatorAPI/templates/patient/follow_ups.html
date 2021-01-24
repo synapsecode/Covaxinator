@@ -53,7 +53,7 @@
 		console.log(payload)
 		if(payload.to == '{{patient.phone}}' || payload.from == '{{patient.phone}}'){
 			chatBuilder(payload)
-			updateDB(payload)
+			
 		}
 	})
 
@@ -82,16 +82,19 @@
 			alert('No Patient Selected')
 		else if(message === '')
 			alert("Empty Message")
-		else
-			socket.emit('private_message', 
-				{
+		else{
+			let payload = {
 					from:'{{patient.phone}}',
 					to:to,
 					message:message,
 					socket_id: socket.id,
 					sender: 'patient'
 				}
+			socket.emit('private_message', 
+				payload
 			)
+			updateDB(payload)
+		}
 		messagebox.value = "";
 	}
 

@@ -105,6 +105,16 @@ class Doctor(db.Model):
 		db.session.commit()
 		print(f"{self} has Registered Vaccine {vb}")
 
+	def get_chats(self, patient):
+		chats = None
+		for chat in self.follow_ups:
+			if(len(chat.patient)>0):
+				if(chat.patient[0] == patient):
+					print("Chat History Found")
+					chats = chat
+			else: print("ERR: No Patients in Chat")
+		return chats
+
 	def __repr__(self):
 		return f"Doctor({self.name}, {self.phone})"
 

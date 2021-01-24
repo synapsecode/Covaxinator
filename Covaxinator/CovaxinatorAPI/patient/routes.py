@@ -149,9 +149,10 @@ def getchats(doctorphone):
 	doctor = Doctor.query.filter_by(phone=doctorphone).first()
 	if(not doctor): return "NO DOCTOR"
 	
-	chats = FollowUpChatData.query.filter(
-		FollowUpChatData.doctor == doctor and FollowUpChatData.patient[0] == patient
-	).first()
+	print("====GETCHATS : PATIENT ====")
+	print(f"Doctor {doctorphone} -> {doctor}")
+	chats = doctor.get_chats(patient)
+	print("Chat Object", chats)
 	
 	# print("CH: ", chats.chats)
 	if(not chats):
@@ -165,7 +166,7 @@ def getchats(doctorphone):
 def updatechat(doctorphone):
 	pat_id = session.get('logged_in_patient')
 
-	print("------PATIENT ROUTE-----------")
+	print("------PATIENT : UPDATE CHAT-----------")
 	print('~~~ Recieved DoctorPhone:', doctorphone)
 	
 
@@ -185,9 +186,7 @@ def updatechat(doctorphone):
 		'message': data['message']
 	}
 
-	chats = FollowUpChatData.query.filter(
-		FollowUpChatData.doctor == doctor and FollowUpChatData.patient[0] == patient
-	).first()
+	chats = doctor.get_chats(patient)
 
 	print('CHATS:', len(chats.chats))
 	if(not chats): 

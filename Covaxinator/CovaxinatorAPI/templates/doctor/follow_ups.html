@@ -5,7 +5,7 @@
 		<h3>Patients</h3>
 		<br>
 		{% for patient in patients %}
-			<button class="btn btn-dark" onclick="changeChatContext({{patient.phone}})">{{patient.name}}</button>
+			<button class="btn btn-dark op" onclick="changeChatContext({{patient.phone}})">{{patient.name}}</button><br>
 		{% endfor %}
 	</div>
 	<div class="mainbar">
@@ -84,8 +84,9 @@
 		console.log(payload)
 		if(currentPhone != ''){
 			chatBuilder(payload)
+			
 		}
-		updateDB(payload)
+		//
 	})
 
 	const updateDB = (payload) => {
@@ -97,7 +98,7 @@
 		fd.append('message', payload.message)
 		console.log(payload.from);
 		fetch(
-			`${window.location.origin}/doctor/updatechat/${payload.from}`,
+			`${window.location.origin}/doctor/updatechat/${payload.to}`,
 			{
 				method:'POST',
 				body:fd
@@ -113,16 +114,20 @@
 			alert('No Patient Selected')
 		else if(message === '')
 			alert("Empty Message")
-		else
+		else{
+			let payload = {
+				from:'{{doctor.phone}}',
+				to:to,
+				message:message,
+				socket_id: socket.id,
+				sender: 'doctor'
+			}
+		
 			socket.emit('private_message', 
-				{
-					from:'{{doctor.phone}}',
-					to:to,
-					message:message,
-					socket_id: socket.id,
-					sender: 'doctor'
-				}
+				payload
 			)
+			updateDB(payload)
+		}
 		messagebox.value = "";
 	}
 

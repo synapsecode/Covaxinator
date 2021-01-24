@@ -130,6 +130,28 @@
 <script>
 	let shield_data = JSON.parse(`{{shield_data}}`.replaceAll('&#34;', '"').replaceAll(" X&#34", '"'));
 	let vac_centers = JSON.parse(`{{vac_centers}}`.replaceAll('&#34;', '"').replaceAll(" X&#34", '"'));
+	let news = []
+
+	const get_news = () => {
+		for(let i=0; i<5; i++){
+			let url = `https://newsapi.org/v2/top-headlines?country=in&apiKey=590b8ff1c78d4c0e8088535f3cf54122&category=health&page=${i}`
+			let dat = {};
+			fetch(url)
+			.then(res => res	.json())
+			.then(data=>{
+				let D = data['articles']
+				let N = []
+				D.forEach((e) => {
+					N.push({
+						title: e.title,
+						url:e.url,
+						image:e.urlToImage
+					})
+				})
+				news = N;
+			})
+		}
+	}
 
 	const logout = () => {
 		fetch(`${window.location.origin}/patient/logout`)
