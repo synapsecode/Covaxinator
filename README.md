@@ -6,6 +6,12 @@ This is a project by Team SynapseCode for the Oakridge Codefest 2021 Hackathon c
 1. Flask & Python
 2. HTML5, CSS3, JS + SocketIO
 
+## Installation
+- Git Clone this Project
+- Make a Python Virtual Environment & Activate It.
+- Do: pip install -r requirements.txt
+- python run.py
+
 ## Progress
 - **(M)** ✔️ Base Flask Scaffold has been Created using My Own Project Creation Tool (it is on my github itself)
 - **(M)** ✔️ Added Flask Blueprint Folders
