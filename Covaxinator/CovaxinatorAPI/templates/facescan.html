@@ -1,8 +1,44 @@
 {% extends 'layout.html' %}
 {% block content %}
 <div class="container p-4">
-	<center>
-		<h1 class="display-1">FaceScan</h1>
-	</center>
+	 <form method="post" enctype="multipart/form-data">
+	 	<center>
+		 	<h1 class="display-1">FaceScan</h1>
+			<img id="imageholder" src="">
+			</img><br>
+			<input type="file" name="file" class="btn btn-lg btn-dark my-4"></input><br>
+			<input type="submit" class="btn btn-success btn-lg" value="Submit">
+		</center>
+    </form>
 </div>
 {% endblock content %}
+
+{% block css %}
+<style>
+	#imageholder{
+		margin-top:20px;
+		height: 300px;
+		width: 300px;
+	}
+</style>
+{% endblock css %}
+
+{% block js %}
+<script>
+let bloburl = '';
+window.addEventListener('load', function() {
+  document.querySelector('input[type="file"]').addEventListener('change', function() {
+      if (this.files && this.files[0]) {
+          	var img = document.getElementById('imageholder');  // $('img')[0]
+        	bloburl = URL.createObjectURL(this.files[0]); // set src to blob url
+		  	console.log(bloburl)
+		  	img.src = bloburl;
+      }
+  });
+});
+
+const sendPicture = () => {
+	console.log("Sending Blob URL: " + bloburl)
+}
+</script>
+{% endblock js %}

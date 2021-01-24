@@ -31,18 +31,21 @@ def patient_register():
 			location = Location(name=data['location'].lower())
 			db.session.add(location)
 			db.session.commit()
-		print(location)
-		pat = Patient(
-			name=data['full_name'],
-			phone=data['phone'],
-			password=data['password'],
-			aadhar=data['aadhar'],
-			address=data['address'],
-			location=location
-		)
-		db.session.add(pat)
-		db.session.commit()
+		print(data)
+		
+		# print(data['profilepic'])
+		# pat = Patient(
+		# 	name=data['full_name'],
+		# 	phone=data['phone'],
+		# 	password=data['password'],
+		# 	aadhar=data['aadhar'],
+		# 	address=data['address'],
+		# 	location=location
+		# )
+		# db.session.add(pat)
+		# db.session.commit()
 		flash('Successfully Created Account!', 'success')
+		return redirect(url_for('patient.patient_login'))
 	
 	return render_template('patient/register.html', title='Patient Register')
 
