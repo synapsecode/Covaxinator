@@ -71,7 +71,7 @@ def doctor_home():
 
 
 
-	inventory = VaccineBatch.query.all()
+	inventory = VaccineBatch.query.filter_by(doctor=doctor).all()
 	vaccine_names = set([v.vaccine_name for v in inventory])	
 	batch_numbers = {}
 	for vn in vaccine_names:
@@ -171,7 +171,6 @@ def getchats(patientphone):
 	doctor = Doctor.query.filter_by(id=doc_id).first()
 
 	patient = Patient.query.filter_by(phone=patientphone).first()
-	if(not patient): return "NO PATIENT"
 
 	print("====GETCHATS : DOCTOR ====")
 	print(f"Patient {patientphone} -> {patient}")

@@ -32,18 +32,22 @@ def patient_register():
 			db.session.add(location)
 			db.session.commit()
 		print(data)
+
+		#Handle Image Uploads
+		#Essentially they will come to the UPLOADS/Patients folder as their number
+		#and can be queried via their number
 		
 		# print(data['profilepic'])
-		# pat = Patient(
-		# 	name=data['full_name'],
-		# 	phone=data['phone'],
-		# 	password=data['password'],
-		# 	aadhar=data['aadhar'],
-		# 	address=data['address'],
-		# 	location=location
-		# )
-		# db.session.add(pat)
-		# db.session.commit()
+		pat = Patient(
+			name=data['full_name'],
+			phone=data['phone'],
+			password=data['password'],
+			aadhar=data['aadhar'],
+			address=data['address'],
+			location=location
+		)
+		db.session.add(pat)
+		db.session.commit()
 		flash('Successfully Created Account!', 'success')
 		return redirect(url_for('patient.patient_login'))
 	

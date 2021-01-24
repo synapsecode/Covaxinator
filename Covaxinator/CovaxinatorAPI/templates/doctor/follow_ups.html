@@ -57,13 +57,15 @@
 	}
 
 	const changeChatContext = (phone) => {
-		currentPatient = patients['+'+phone];
-		currentPhone = '+'+phone;
+		currentPatient = patients[phone];
+		currentPhone = phone;
 		nametag.innerHTML = currentPatient;
 		chatArea.innerHTML = "Loading";
+		console.log('Sending');
 		fetch(`${window.location.origin}/doctor/getchats/${currentPhone}`)
 		.then(res => res.json())
 		.then((chats)=>{
+			console.log(chats);
 			chatArea.innerHTML = "";
 			console.log("Recieved Chats");
 			chats['chats'].forEach((c) => {
