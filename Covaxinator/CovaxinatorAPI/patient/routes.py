@@ -2,6 +2,9 @@ from flask import render_template, request, Blueprint, flash, url_for, redirect,
 import json
 from CovaxinatorAPI.models import *
 from CovaxinatorAPI import db
+from werkzeug.utils import secure_filename
+import os
+from CovaxinatorAPI.config import Config
 
 patient = Blueprint('patient', __name__)
 
@@ -22,6 +25,9 @@ def patient_login():
 		return jsonify({"redirect": url_for('patient.patient_home')})
 	return render_template('patient/login.html', title='Patient Login')
 
+def allowed_file(filename):
+	return '.' in filename and filename.rsplit('.', 1)[1].lower() in Config.ALLOWED_EXTENSIONS
+
 @patient.route('/register', methods=['GET', 'POST'])
 def patient_register():
 	if(request.method == 'POST'):
@@ -33,11 +39,20 @@ def patient_register():
 			db.session.commit()
 		print(data)
 
-		#Handle Image Uploads
-		#Essentially they will come to the UPLOADS/Patients folder as their number
-		#and can be queried via their number
+		print(request.files['file'])
+		file = request.files['file']
+		if(file):
+			if(file.filename == ''):
+				flash('No selected file', 'danger')
+				return redirect(request.url)
+			if file and allowed_file(file.filename):
+				filename = secure_filename(data['phone'] + '.' + file.filename.rsplit('.', 1)[1].lower())
+				file.save(os.path.join(Config.UPLOAD_FOLDER, 'Patients', filename))
+
+		# Handle Image Uploads
+		# Essentially they will come to the UPLOADS/Patients folder as their number
+		# and can be queried via their number
 		
-		# print(data['profilepic'])
 		pat = Patient(
 			name=data['full_name'],
 			phone=data['phone'],
